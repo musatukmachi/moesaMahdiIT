@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+}
+
+#mapid {
+    height: 100vh;
+    width: 100vw;
+}
+
+#searchbar {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    left: 21%;
+    width: 50%;
+    height: 3rem;
+    box-shadow: 0 0 2px black;
+    z-index: 99999;
+    background-color: white;
+    border-radius: 10px;
+    padding: 0 2%;
+    font-size: 1.1rem;
+}
+
+input {
+    border: none;
+    text-decoration: none;
+    width: 90%;
+}
+
+input:focus {
+    outline: none;
+}
+
+.fa-search {
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 700px) {
+    #searchbar {
+        width: 350px;
+        left: 10px;
+        height: 40px;
+        padding: 0 5px 0 10px;
+    }
+}

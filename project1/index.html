@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Maps API Project</title>
+	<link rel="stylesheet" href="libs/apis/leaflet/leaflet.css">
+	<link rel="stylesheet" href="libs/apis/fontawesome-free-5.15.4-web/css/all.css">
+	<link rel="stylesheet" href="libs/css/styles.css">
+	<link rel="stylesheet" href="libs/css/details.css">
+</head>
+<body>
+<div id="searchbar">
+	<input list="countries" placeholder="Search...">
+	<datalist id="countries"></datalist>
+	<i class="fas fa-search"></i>
+</div>
+
+<div id="details" class="details-open">
+	<div class="container">
+		<div id="details-header">
+			<span>Country Name</span>
+			<div id="header-right-side">
+				<span>Time</span>
+				<i id="display-details" class="fas fa-eye"></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="mapid"></div>
+
+<script src="libs/js/jquery-3.6.0.min.js"></script>
+<script src="libs/apis/leaflet/leaflet.js"></script>
+<script src="libs/js/init.js"></script>
+<script src="libs/js/selectCountry.js"></script>
+<script src="libs/js/displayInfo.js"></script>
+</body>
+</html>
