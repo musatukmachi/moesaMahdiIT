@@ -28,7 +28,6 @@
 
 #details-header {
     margin: 0.9rem 0;
-    width: 100%;
 }
 
 #header-right-side {
@@ -38,6 +37,34 @@
     margin: 3px 0;
 }
 
+.fa-eye, .fa-eye-slash {
+    cursor: pointer;
+}
+
+#details-navbar {
+    overflow: scroll;
+    display: none;
+}
+
+#details-navbar ul {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 0;
+    margin: 0;
+}
+
+#details-navbar ul li {
+    padding: 10px 3px;
+    list-style-type: none;
+    margin-right: 7px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#details-navbar ul li:hover {
+    background-color: #eee;
+    border-radius: 5px;
+}
 @media only screen and (min-width: 700px) {
     .details-open {
         width: 350px;

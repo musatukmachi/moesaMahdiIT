@@ -1,5 +1,5 @@
 <?php
-    $geoJSON = json_decode(file_get_contents("../countryBorders.geo.json"));
+    $geoJSON = json_decode(file_get_contents("../../countryBorders.geo.json"));
     $names = array();
 
     foreach($geoJSON->features as $country) {

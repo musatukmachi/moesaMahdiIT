@@ -16,14 +16,25 @@
 	<i class="fas fa-search"></i>
 </div>
 
-<div id="details" class="details-open">
+<div id="details" class="details-closed">
 	<div class="container">
 		<div id="details-header">
-			<span>Country Name</span>
+			<span id="country-name">Country</span>
 			<div id="header-right-side">
-				<span>Time</span>
-				<i id="display-details" class="fas fa-eye"></i>
+				<span id="country-time">Time</span>
+				<i id="display-details" class="fas fa-eye-slash"></i>
 			</div>
+		</div>
+		<div id="details-navbar">
+			<ul>
+				<li id="demographics">Demographics</li>
+				<li id="economy">Economy</li>
+				<li id="wiki">Wiki Entries</li>
+				<li id="enviro">Environment</li>
+			</ul>
+		</div>
+		<div id="details-results">
+
 		</div>
 	</div>
 </div>
@@ -32,8 +43,12 @@
 
 <script src="libs/js/jquery-3.6.0.min.js"></script>
 <script src="libs/apis/leaflet/leaflet.js"></script>
+<script type="module" src="libs/js/toggleDetails.js"></script>
 <script src="libs/js/init.js"></script>
-<script src="libs/js/selectCountry.js"></script>
-<script src="libs/js/displayInfo.js"></script>
+<script type="module" src="libs/js/getInfo.js"></script>
+<script src="libs/js/details/demographics.js"></script>
+<script src="libs/js/details/economy.js"></script>
+<script src="libs/js/details/wiki.js"></script>
+<script src="libs/js/details/enviro.js"></script>
 </body>
 </html>

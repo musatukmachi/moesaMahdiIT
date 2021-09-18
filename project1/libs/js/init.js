@@ -16,12 +16,12 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 L.control.zoom({
-    position: 'bottomright'
+    position: 'topright'
 }).addTo(mymap);
 
 // Populate search datalist with country names
 $.ajax({
-    url: "libs/php/getCountryNames.php",
+    url: "libs/php/setup/getCountryNames.php",
     method: 'GET',
     dataType: 'json',
     success: (data) => {        
