@@ -1,5 +1,3 @@
-import { toggleDetails } from "./toggleDetails.js";
-
 // Remove layer
 const removeMarkers = () => {
     mymap.eachLayer( (layer) => {
@@ -10,44 +8,59 @@ const removeMarkers = () => {
 }
 
 // Run when clicking the search button
-$('.fa-search').click(() => {
-    var coord;
-    var country = $('input').val();
-    $('#country-name').text(country);
-
-    toggleDetails();
-
+$('.fa-search').click(async () => {
+    // reset border and details
     removeMarkers();
-
     $('#details-results').html('');
+
+    var coord;
+    // change country name state
+    store.name = $('input').val();
+    $('#country-name').text(store.name);
+
+
+    // change country code state
+    $.ajax({
+        url: "libs/php/setup/getCountryCode.php",
+        method: 'POST',
+        data: {
+            name: $('input').val()
+        },
+        success: (result) => {
+            store.code = result;
+            reqDemographicsInfo();
+        }
+    });
 
     // Pan map to selected Country
     $.ajax({
         url: "libs/php/setup/getCountryLocation.php",
         method: 'POST',
         data: {
-            country: country.replaceAll(' ', '+')
+            country: store.name.replaceAll(' ', '+')
         },
         success: (result) => {
             coord = [result.data.lat, result.data.lng];
+            store.lat = coord[0];
+            store.lng = coord[1];
             console.log('country location req: ', result);
             mymap.panTo( new L.LatLng( coord[0] , coord[1] ) );
 
             // Get Country Time
-            $.ajax({
-                url: "libs/php/setup/getCountryTime.php",
-                method: 'POST',
-                data: {
-                    coord: '?latitude=' + coord[0].toString() + '&longitude=' + coord[1].toString()
-                },
-                success: (result) => {
-                    console.log('request country time: ', JSON.parse(result));
-                    $('#country-time').text(JSON.parse(result).LocalTime_Now);
-                },
-                error: () => {
-                    console.log('Failed to retrieve country time');
-                }
-            });
+            // $.ajax({
+            //     url: "libs/php/setup/getCountryTime.php",
+            //     method: 'POST',
+            //     data: {
+            //         coord: '?latitude=' + coord[0].toString() + '&longitude=' + coord[1].toString()
+            //     },
+            //     success: (result) => {
+            //         console.log('request country time: ', JSON.parse(result));
+            //         $('#country-time').text(JSON.parse(result).LocalTime_Now);
+            //     },
+            //     error: () => {
+            //         console.log('Failed to retrieve country time');
+            //     }
+            // });
         },
         error: () => {
             console.log('Failed to retrieve country location');
@@ -60,7 +73,7 @@ $('.fa-search').click(() => {
         method: 'POST',
         dataType: 'json',
         data: {
-            country: country
+            country: store.name
         },
         success: (result) => {
             L.geoJSON(result, {
@@ -78,4 +91,7 @@ $('.fa-search').click(() => {
             console.log('Failed to retrieve country borders');
         }
     });
+
+    toggleDetails();
 });
+

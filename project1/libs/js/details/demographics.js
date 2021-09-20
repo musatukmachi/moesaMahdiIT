@@ -1,41 +1,35 @@
-$('#demographics').click(() => {
+const reqDemographicsInfo = () => {
     $.ajax({
-        url: "libs/php/setup/getCountryCode.php",
+        url: "libs/php/info/getDemographics.php",
         method: 'POST',
         data: {
-            name: $('input').val()
+            code: store.code
         },
         success: (result) => {
-            console.log("request for country code: ", result)
-            $.ajax({
-                url: "libs/php/info/getDemographics.php",
-                method: 'POST',
-                data: {
-                    code: result
-                },
-                success: (result) => {
-                    console.log("demographics data: ", result);
-                    let countryLanguages = '';
-                    for(el of result.data.languages){
-                        countryLanguages += el.name;
-                        if(el !== result.data.languages.at(-1)){
-                            countryLanguages += ', ';
-                        }
-                    }
-                    
-                    $('#details-results').html(
-                        "Population: " + result.data.population + "<br/>" +
-                        "Capital: " + result.data.capital + "<br/>" +
-                        "Language: " + countryLanguages
-                        );
-                },
-                error: () => {
-                    console.log('Failed to retrieve demographics data');
+            store.capital = result.data.capital;
+            console.log("demographics data: ", result);
+            let countryLanguages = '';
+            for(el of result.data.languages){
+                countryLanguages += el.name;
+                if(el !== result.data.languages.at(-1)){
+                    countryLanguages += ', ';
                 }
-            });
+            }
+            
+            $('#details-results').html(
+                "<hr/>Population: " + result.data.population + "<hr/>" +
+                "Capital: " + result.data.capital + "<hr/>" +
+                "Language: " + countryLanguages
+                );
         },
         error: () => {
-            console.log('Failed to retrieve country code');
+            console.log('Failed to retrieve demographics data');
         }
     });
+}
+
+$('#demographics').click(() => {
+    store.enviroInfo = false;
+    store.wikiInfo = false;
+    reqDemographicsInfo();
 });

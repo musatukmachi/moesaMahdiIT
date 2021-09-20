@@ -4,8 +4,8 @@ This project collects the following data from APIs for each country and displaye
 - Demographic: Population, Capital City, Language
     - APIs: Rest Countries 
 - Economic: GDP, Exchange Rates, Unemployment rates, Access to Electricity
-    - APIs: World Bank ... GDP: (https://api.worldbank.org/v2/country/us/indicator/) NY.GDP.PCAP.CD, Unemployment: SL.UEM.TOTL.ZS, Exchange rates: PA.NUS.FCRF, AtElec: EG.ELC.ACCS.ZS
-- Wikipedia Entries: Notable figures, historical sites, tourist attractions
-    - APIs: GeonNames
-- Environmental: Renewable Energy Output, Average temperature, weather forecasts, earthquakes, Time
-    - APIs: World Bank, Open Weather, GeoNames, WorldTimeAPI ... REO: EG.ELC.RNEW.ZS
+    - APIs: World Bank
+- Wikipedia Entries around clicked map location
+    - APIs: GeoNames
+- Environmental: Temperature (updated on clicked map location), weather forecasts, Renewable Energy Output, CO2 Emissions, Urban Population, Time
+    - APIs: World Bank, WeatherAPI, RapidAPI 

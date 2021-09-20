@@ -1,4 +1,4 @@
-export const toggleDetails = () => {
+const toggleDetails = () => {
     let d = $('#display-details');
 
     if( d.hasClass('fa-eye-slash') ) {
@@ -9,6 +9,7 @@ export const toggleDetails = () => {
         $('#details').addClass('details-open');
 
         $('#details-navbar').show();
+        $('#details-results').show();
     } else {
         d.addClass('fa-eye-slash');
         d.removeClass('fa-eye');
@@ -17,6 +18,7 @@ export const toggleDetails = () => {
         $('#details').removeClass('details-open');
 
         $('#details-navbar').hide();
+        $('#details-results').hide();
     }
 }
 
