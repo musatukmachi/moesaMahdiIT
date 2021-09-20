@@ -47,20 +47,20 @@ $('.fa-search').click(async () => {
             mymap.panTo( new L.LatLng( coord[0] , coord[1] ) );
 
             // Get Country Time
-            // $.ajax({
-            //     url: "libs/php/setup/getCountryTime.php",
-            //     method: 'POST',
-            //     data: {
-            //         coord: '?latitude=' + coord[0].toString() + '&longitude=' + coord[1].toString()
-            //     },
-            //     success: (result) => {
-            //         console.log('request country time: ', JSON.parse(result));
-            //         $('#country-time').text(JSON.parse(result).LocalTime_Now);
-            //     },
-            //     error: () => {
-            //         console.log('Failed to retrieve country time');
-            //     }
-            // });
+            $.ajax({
+                url: "libs/php/setup/getCountryTime.php",
+                method: 'POST',
+                data: {
+                    coord: '?latitude=' + coord[0].toString() + '&longitude=' + coord[1].toString()
+                },
+                success: (result) => {
+                    console.log('request country time: ', JSON.parse(result));
+                    $('#country-time').text(JSON.parse(result).LocalTime_Now);
+                },
+                error: () => {
+                    console.log('Failed to retrieve country time');
+                }
+            });
         },
         error: () => {
             console.log('Failed to retrieve country location');
