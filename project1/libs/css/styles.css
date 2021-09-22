@@ -17,24 +17,23 @@ html, body {
     align-items: center;
     position: absolute;
     top: 10px;
-    left: 21%;
-    width: 50%;
-    height: 3rem;
+    left: 10px;
+    height: 40px;
+    padding: 0 5px 0 10px;
     box-shadow: 0 0 2px black;
     z-index: 99999;
     background-color: white;
     border-radius: 10px;
-    padding: 0 2%;
+    font-size: 1.1rem;
+    text-overflow: ellipsis;
+}
+
+select {
+    border: none;
     font-size: 1.1rem;
 }
 
-input {
-    border: none;
-    text-decoration: none;
-    width: 90%;
-}
-
-input:focus {
+select:focus {
     outline: none;
 }
 
@@ -43,11 +42,80 @@ input:focus {
     cursor: pointer;
 }
 
+/* Details Icons */
+#icons-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.8rem;
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    z-index: 999;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px black;
+    margin: 5px 0;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    display: none;
+}
+
 @media only screen and (min-width: 700px) {
     #searchbar {
-        width: 350px;
         left: 10px;
         height: 40px;
         padding: 0 5px 0 10px;
+    }
+  
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+        display: initial;
+        font-size: 1rem;
+        white-space: nowrap;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1000;
+        left: 110%;
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext{
+        opacity: 1;
+    }
+
+    .tooltip .tooltiptext::after {
+        content: " ";
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        margin-top: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent black transparent transparent;
+    }
+
+}
+
+@media only screen and (max-width: 275px) {
+    #searchbar {
+        width: 60%;
     }
 }

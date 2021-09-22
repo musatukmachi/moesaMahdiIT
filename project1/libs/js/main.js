@@ -29,108 +29,109 @@ const removeMarkers = () => {
 }
 
 // Toggle details window
-const toggleDetails = () => {
-    let d = $('#display-details');
+// const toggleDetails = () => {
+//     let d = $('#display-details');
 
-    if( d.hasClass('fa-eye-slash') ) {
-        d.removeClass('fa-eye-slash');
-        d.addClass('fa-eye');
+//     if( d.hasClass('fa-eye-slash') ) {
+//         d.removeClass('fa-eye-slash');
+//         d.addClass('fa-eye');
 
-        $('#details').removeClass('details-closed');
-        $('#details').addClass('details-open');
+//         $('#details').removeClass('details-closed');
+//         $('#details').addClass('details-open');
 
-        $('#details-navbar').show();
-        $('#details-results').show();
-    } else {
-        d.addClass('fa-eye-slash');
-        d.removeClass('fa-eye');
+//         $('#details-navbar').show();
+//         $('#details-results').show();
+//     } else {
+//         d.addClass('fa-eye-slash');
+//         d.removeClass('fa-eye');
 
-        $('#details').addClass('details-closed');
-        $('#details').removeClass('details-open');
+//         $('#details').addClass('details-closed');
+//         $('#details').removeClass('details-open');
 
-        $('#details-navbar').hide();
-        $('#details-results').hide();
-    }
-}
+//         $('#details-navbar').hide();
+//         $('#details-results').hide();
+//     }
+// }
 
-$('#display-details').click(() => {
-    toggleDetails();
-});
+// $('#display-details').click(() => {
+//     toggleDetails();
+// });
 
-const reqDemographicsInfo = () => {
-    $.ajax({
-        url: "libs/php/info/getDemographics.php",
-        method: 'POST',
-        data: {
-            code: store.code
-        },
-        success: (result) => {
-            store.capital = result.data.capital;
-            console.log("demographics data: ", result);
-            let countryLanguages = '';
-            for(el of result.data.languages){
-                countryLanguages += el.name;
-                if(el !== result.data.languages.at(-1)){
-                    countryLanguages += ', ';
-                }
-            }
+// const reqDemographicsInfo = () => {
+//     $.ajax({
+//         url: "libs/php/info/getDemographics.php",
+//         method: 'POST',
+//         data: {
+//             code: store.code
+//         },
+//         success: (result) => {
+//             store.capital = result.data.capital;
+//             console.log("demographics data: ", result);
+//             let countryLanguages = '';
+//             for(el of result.data.languages){
+//                 countryLanguages += el.name;
+//                 if(el !== result.data.languages.at(-1)){
+//                     countryLanguages += ', ';
+//                 }
+//             }
             
-            $('#details-results').html(
-                "<hr/>Population: " + result.data.population + "<hr/>" +
-                "Capital: " + result.data.capital + "<hr/>" +
-                "Language: " + countryLanguages
-                );
-        },
-        error: () => {
-            console.log('Failed to retrieve demographics data');
-        }
-    });
-}
+//             $('#details-results').html(
+//                 "<hr/>Population: " + result.data.population + "<hr/>" +
+//                 "Capital: " + result.data.capital + "<hr/>" +
+//                 "Language: " + countryLanguages
+//                 );
+//         },
+//         error: () => {
+//             console.log('Failed to retrieve demographics data');
+//         }
+//     });
+// }
 
 // Display wiki entries on map click
-mymap.on('click', (e) => {
-    store.lat = e.latlng.lat;
-    store.lng = e.latlng.lng;
+// mymap.on('click', (e) => {
+//     store.lat = e.latlng.lat;
+//     store.lng = e.latlng.lng;
 
-    // Update weather info
-    if(store.enviroInfo === true){
-        reqEnvironmentInfo();
-    }
-    else if(store.wikiInfo === true){
-        reqWikiInfo();
-    }
+//     // Update weather info
+//     if(store.enviroInfo === true){
+//         reqEnvironmentInfo();
+//     }
+//     else if(store.wikiInfo === true){
+//         reqWikiInfo();
+//     }
 
-    // Create wiki entries markers on location
-    $.ajax({
-        url: "libs/php/info/getWikiEntries.php",
-        method: 'POST',
-        data: {
-            lat: e.latlng.lat,
-            lng: e.latlng.lng
-        },
-        success: (result) => {
-            console.log(result);
-            for(entry of result.data) {
-                L.marker([entry.lat, entry.lng]).addTo(mymap)
-                .bindPopup(
-                    entry.title + '<hr/>' + entry.summary
-                ).openPopup();
-            }
-        },
-        error: () => {
-            console.log('Could not retrieve Wiki Entries');
-        }
-    });
-});
+//     // Create wiki entries markers on location
+//     $.ajax({
+//         url: "libs/php/info/getWikiEntries.php",
+//         method: 'POST',
+//         data: {
+//             lat: e.latlng.lat,
+//             lng: e.latlng.lng
+//         },
+//         success: (result) => {
+//             console.log(result);
+//             for(entry of result.data) {
+//                 L.marker([entry.lat, entry.lng]).addTo(mymap)
+//                 .bindPopup(
+//                     entry.title + '<hr/>' + entry.summary
+//                 ).openPopup();
+//             }
+//         },
+//         error: () => {
+//             console.log('Could not retrieve Wiki Entries');
+//         }
+//     });
+// });
 
-// Populate search datalist with country names
+// Populate search with country names
 $.ajax({
     url: "libs/php/setup/getCountryNames.php",
     method: 'GET',
     dataType: 'json',
-    success: (data) => {        
+    success: (data) => {     
+        data.sort();   
         data.forEach(country => {
-            $('#countries').append("<option value='" + country + "'>");
+            $('#searchbar').append("<option value='" + country + "'>" + country + "</option>");
         });
     },
     error: () => {
@@ -138,18 +139,47 @@ $.ajax({
     }
 });
 
+// get Country Borders
+$.ajax({
+    url: "libs/php/setup/getCountryBorders.php",
+    method: 'POST',
+    dataType: 'json',
+    data: {
+        country: store.name
+    },
+    success: (result) => {
+        store.borders = JSON.parse(result);
+    },
+    error: () => {
+        console.log('Failed to retrieve country borders');
+    }
+});
 
-// Run when clicking the search button
-$('.fa-search').click(() => {
+
+// Run when select country
+$('#searchbar').change(() => {
     // reset border and details
     removeMarkers();
-    $('#details-results').html('');
+    // $('#details-results').html('');
 
     var coord;
-    // change country name state
-    store.name = $('input').val();
-    $('#country-name').text(store.name);
+    store.name = $('#searchbar').val();
+    // $('#country-name').text(store.name);
 
+    let countryGeometry = store.borders.features.filter(country => country.properties.name === store.name);
+
+    store.countryBorder = L.geoJSON(countryGeometry, {
+        style: {
+            color: "#111",
+            weight: 4,
+            opacity: 0.9
+        },
+        onEachFeature: (feature, layer) => {
+            layer.myTag = "myGeoJSON"
+        }
+    }).addTo(mymap);
+
+    mymap.fitBounds(store.countryBorder.getBounds());
 
     // change country code state
     $.ajax({
@@ -165,66 +195,40 @@ $('.fa-search').click(() => {
     });
 
     // Pan map to selected Country
-    $.ajax({
-        url: "libs/php/setup/getCountryLocation.php",
-        method: 'POST',
-        data: {
-            country: store.name.replaceAll(' ', '+')
-        },
-        success: (result) => {
-            coord = [result.data.lat, result.data.lng];
-            store.lat = coord[0];
-            store.lng = coord[1];
-            console.log('country location req: ', result);
-            mymap.panTo( new L.LatLng( coord[0] , coord[1] ) );
+    // $.ajax({
+    //     url: "libs/php/setup/getCountryLocation.php",
+    //     method: 'POST',
+    //     data: {
+    //         country: store.name.replaceAll(' ', '+')
+    //     },
+    //     success: (result) => {
+    //         coord = [result.data.lat, result.data.lng];
+    //         store.lat = coord[0];
+    //         store.lng = coord[1];
+    //         console.log('country location req: ', result);
+    //         //mymap.panTo( new L.LatLng( coord[0] , coord[1] ) );
 
-            // Get Country Time
-            $.ajax({
-                url: "libs/php/setup/getCountryTime.php",
-                method: 'POST',
-                data: {
-                    coord: '?latitude=' + coord[0].toString() + '&longitude=' + coord[1].toString()
-                },
-                success: (result) => {
-                    console.log('request country time: ', JSON.parse(result));
-                    $('#country-time').text(JSON.parse(result).LocalTime_Now);
-                },
-                error: () => {
-                    console.log('Failed to retrieve country time');
-                }
-            });
-        },
-        error: () => {
-            console.log('Failed to retrieve country location');
-        }
-    });
+    //         // Get Country Time
+    //         // $.ajax({
+    //         //     url: "libs/php/setup/getCountryTime.php",
+    //         //     method: 'POST',
+    //         //     data: {
+    //         //         coord: '?latitude=' + coord[0].toString() + '&longitude=' + coord[1].toString()
+    //         //     },
+    //         //     success: (result) => {
+    //         //         console.log('request country time: ', JSON.parse(result));
+    //         //         $('#country-time').text(JSON.parse(result).LocalTime_Now);
+    //         //     },
+    //         //     error: () => {
+    //         //         console.log('Failed to retrieve country time');
+    //         //     }
+    //         // });
+    //     },
+    //     error: () => {
+    //         console.log('Failed to retrieve country location');
+    //     }
+    // });
 
-    // get Country Borders
-    $.ajax({
-        url: "libs/php/setup/getCountryBorders.php",
-        method: 'POST',
-        dataType: 'json',
-        data: {
-            country: store.name
-        },
-        success: (result) => {
-            L.geoJSON(result, {
-                style: {
-                    color: "#aaaaaa",
-                    weight: 1,
-                    opacity: 0.5
-                },
-                onEachFeature: (feature, layer) => {
-                    layer.myTag = "myGeoJSON"
-                }
-            }).addTo(mymap);
-        },
-        error: () => {
-            console.log('Failed to retrieve country borders');
-        }
-    });
-
-    toggleDetails();
 });
 
 // Demographics details

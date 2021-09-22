@@ -10,13 +10,12 @@
 	<link rel="stylesheet" href="libs/css/details.css">
 </head>
 <body>
-<div id="searchbar">
-	<input list="countries" placeholder="Search...">
-	<datalist id="countries"></datalist>
-	<i class="fas fa-search"></i>
-</div>
 
-<div id="details" class="details-closed">
+<select id="searchbar">
+	<option value="Choose a Country">Choose a Country</option>
+</select>
+
+<!-- <div id="details" class="details-closed">
 	<div class="container">
 		<div id="details-header">
 			<span id="country-name">Country</span>
@@ -37,6 +36,16 @@
 
 		</div>
 	</div>
+</div> -->
+
+<div id="icons-container">
+	<div class="tooltip"><i class="fas fa-globe"></i><span class="tooltiptext">General</span></div>
+	<div class="tooltip"><i class="fas fa-dollar-sign"></i><span class="tooltiptext">Economy</span></div>
+	<div class="tooltip"><i class="fab fa-wikipedia-w"></i><span class="tooltiptext">Wikipedia</span></div>
+	<div class="tooltip"><i class="fas fa-sun"></i><span class="tooltiptext">Climate</span></div>
+	<div class="tooltip"><i class="fas fa-newspaper"></i><span class="tooltiptext">News</span></div>
+	<div class="tooltip"><i class="fas fa-head-side-mask"></i><span class="tooltiptext">Covid</span></div>
+	<div class="tooltip"><i class="fas fa-video"></i><span class="tooltiptext">Web Cam</span></div>
 </div>
 
 <div id="mapid"></div>
@@ -45,8 +54,5 @@
 <script src="libs/apis/leaflet/leaflet.js"></script>
 <script src="libs/js/store.js"></script>
 <script src="libs/js/main.js"></script>
-<script src="libs/js/details/economy.js"></script>
-<script src="libs/js/details/wiki.js"></script>
-<script src="libs/js/details/enviro.js"></script>
 </body>
 </html>
