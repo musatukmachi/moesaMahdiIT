@@ -181,8 +181,8 @@ $('#searchbar').change(() => {
         url: "libs/php/info/getWikiEntries.php",
         method: 'POST',
         data: {
-            lat: 51.5074,//e.latlng.lat,
-            lng: 0.1278//e.latlng.lng
+            lat: 51.5073,//e.latlng.lat,
+            lng: 0.1275//e.latlng.lng
         },
         success: (result) => {
             console.log(result);
@@ -191,11 +191,11 @@ $('#searchbar').change(() => {
                 prefix: 'fa',
                 markerColor: 'blue'
             });
-            for(entry of result.data) {
-                L.marker([entry.lat, entry.lng], {icon: wikiMarker})
+            for(entry of result.data.geosearch) {
+                L.marker([entry.lat, entry.lon], {icon: wikiMarker})
                 .addTo(mymap)
                 .bindPopup(
-                    entry.title + '<hr/>' + entry.summary
+                    entry.title// + '<hr/>' + entry.summary
                 ).openPopup();
             }
         },
@@ -203,6 +203,8 @@ $('#searchbar').change(() => {
             console.log('Could not retrieve Wiki Entries');
         }
     });
+
+    // Weather markers
 
     // Create Webcam markers
 
