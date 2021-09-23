@@ -6,10 +6,15 @@
 	<title>Maps API Project</title>
 	<link rel="stylesheet" href="libs/apis/leaflet/leaflet.css">
 	<link rel="stylesheet" href="libs/apis/fontawesome-free-5.15.4-web/css/all.css">
+	<link rel="stylesheet" href="libs/apis/leaflet.awesome-markers/ionicons.min.css">
+	<link rel="stylesheet" href="libs/apis/leaflet.awesome-markers/leaflet.awesome-markers.css">
 	<link rel="stylesheet" href="libs/css/styles.css">
 	<link rel="stylesheet" href="libs/css/details.css">
 </head>
 <body>
+<div class="loading">
+	<div class="lds-ripple"><div></div><div></div></div>
+</div>
 
 <select id="searchbar">
 	<option value="Choose a Country">Choose a Country</option>
@@ -45,13 +50,14 @@
 	<div class="tooltip"><i class="fas fa-sun"></i><span class="tooltiptext">Climate</span></div>
 	<div class="tooltip"><i class="fas fa-newspaper"></i><span class="tooltiptext">News</span></div>
 	<div class="tooltip"><i class="fas fa-head-side-mask"></i><span class="tooltiptext">Covid</span></div>
-	<div class="tooltip"><i class="fas fa-video"></i><span class="tooltiptext">Web Cam</span></div>
+	<div class="tooltip"><i class="fas fa-video"></i><span class="tooltiptext">Webcam</span></div>
 </div>
 
 <div id="mapid"></div>
 
 <script src="libs/js/jquery-3.6.0.min.js"></script>
 <script src="libs/apis/leaflet/leaflet.js"></script>
+<script src="libs/apis/leaflet.awesome-markers/leaflet.awesome-markers.js"></script>
 <script src="libs/js/store.js"></script>
 <script src="libs/js/main.js"></script>
 </body>

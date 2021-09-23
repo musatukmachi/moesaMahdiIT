@@ -28,35 +28,6 @@ const removeMarkers = () => {
     });
 }
 
-// Toggle details window
-// const toggleDetails = () => {
-//     let d = $('#display-details');
-
-//     if( d.hasClass('fa-eye-slash') ) {
-//         d.removeClass('fa-eye-slash');
-//         d.addClass('fa-eye');
-
-//         $('#details').removeClass('details-closed');
-//         $('#details').addClass('details-open');
-
-//         $('#details-navbar').show();
-//         $('#details-results').show();
-//     } else {
-//         d.addClass('fa-eye-slash');
-//         d.removeClass('fa-eye');
-
-//         $('#details').addClass('details-closed');
-//         $('#details').removeClass('details-open');
-
-//         $('#details-navbar').hide();
-//         $('#details-results').hide();
-//     }
-// }
-
-// $('#display-details').click(() => {
-//     toggleDetails();
-// });
-
 // const reqDemographicsInfo = () => {
 //     $.ajax({
 //         url: "libs/php/info/getDemographics.php",
@@ -123,6 +94,16 @@ const removeMarkers = () => {
 //     });
 // });
 
+// Checks for ajax request status to display loader or not
+$(document).ajaxStart(function() {
+    $(".loading").show();
+});
+
+$(document).ajaxStop(function() {
+    $(".loading").hide();
+});
+
+/// Run on first load ///
 // Populate search with country names
 $.ajax({
     url: "libs/php/setup/getCountryNames.php",
@@ -149,6 +130,7 @@ $.ajax({
     },
     success: (result) => {
         store.borders = JSON.parse(result);
+        $('.loading').css("background-color", "rgb(0,0,0,0)");
     },
     error: () => {
         console.log('Failed to retrieve country borders');
@@ -156,7 +138,7 @@ $.ajax({
 });
 
 
-// Run when select country
+/// Run when select country ///
 $('#searchbar').change(() => {
     // reset border and details
     removeMarkers();
@@ -190,44 +172,39 @@ $('#searchbar').change(() => {
         },
         success: (result) => {
             store.code = result;
-            reqDemographicsInfo();
+            // reqDemographicsInfo();
         }
     });
 
-    // Pan map to selected Country
-    // $.ajax({
-    //     url: "libs/php/setup/getCountryLocation.php",
-    //     method: 'POST',
-    //     data: {
-    //         country: store.name.replaceAll(' ', '+')
-    //     },
-    //     success: (result) => {
-    //         coord = [result.data.lat, result.data.lng];
-    //         store.lat = coord[0];
-    //         store.lng = coord[1];
-    //         console.log('country location req: ', result);
-    //         //mymap.panTo( new L.LatLng( coord[0] , coord[1] ) );
+    // Create Wiki entries markers
+    $.ajax({
+        url: "libs/php/info/getWikiEntries.php",
+        method: 'POST',
+        data: {
+            lat: 51.5074,//e.latlng.lat,
+            lng: 0.1278//e.latlng.lng
+        },
+        success: (result) => {
+            console.log(result);
+            let wikiMarker = L.AwesomeMarkers.icon({
+                icon: 'info',
+                prefix: 'fa',
+                markerColor: 'blue'
+            });
+            for(entry of result.data) {
+                L.marker([entry.lat, entry.lng], {icon: wikiMarker})
+                .addTo(mymap)
+                .bindPopup(
+                    entry.title + '<hr/>' + entry.summary
+                ).openPopup();
+            }
+        },
+        error: () => {
+            console.log('Could not retrieve Wiki Entries');
+        }
+    });
 
-    //         // Get Country Time
-    //         // $.ajax({
-    //         //     url: "libs/php/setup/getCountryTime.php",
-    //         //     method: 'POST',
-    //         //     data: {
-    //         //         coord: '?latitude=' + coord[0].toString() + '&longitude=' + coord[1].toString()
-    //         //     },
-    //         //     success: (result) => {
-    //         //         console.log('request country time: ', JSON.parse(result));
-    //         //         $('#country-time').text(JSON.parse(result).LocalTime_Now);
-    //         //     },
-    //         //     error: () => {
-    //         //         console.log('Failed to retrieve country time');
-    //         //     }
-    //         // });
-    //     },
-    //     error: () => {
-    //         console.log('Failed to retrieve country location');
-    //     }
-    // });
+    // Create Webcam markers
 
 });
 
