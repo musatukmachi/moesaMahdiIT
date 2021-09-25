@@ -29,11 +29,11 @@ const removeBorder = () => {
 }
 
 // Checks for ajax request status to display loader or not
-$(document).ajaxStart(function() {
+$(document).ajaxStart(() => {
     $(".loading").show();
 });
 
-$(document).ajaxStop(function() {
+$(document).ajaxStop(() => {
     $(".loading").hide();
 });
 
@@ -68,13 +68,14 @@ $.ajax({
     }
 });
 
+var markerCluster = L.markerClusterGroup();
 var markers;
 var markersGroup;
 /// Run when select country ///
 $('#searchbar').change(() => {
     // reset border and details
     removeBorder();
-    markersGroup ? mymap.removeLayer(markersGroup) : null;
+    markerCluster.clearLayers();
     markers = [];
 
     store.name = $('#searchbar').val();
@@ -126,6 +127,8 @@ $('#searchbar').change(() => {
                         ).openPopup()
                     );
                     
+                    markersGroup = L.featureGroup(markers);
+                    markerCluster.addLayers(markers);
                 },
                 error: () => {
                     console.log('Failed to retrieve location');
@@ -149,17 +152,19 @@ $('#searchbar').change(() => {
                 prefix: 'fa',
                 markerColor: 'blue'
             });
-                        
-            for(site of result.data){
-                markers.push(
-                    L.marker([site.latitude, site.longitude], {icon: heritageMarker})
-                    .addTo(mymap)
-                    .bindPopup(
-                        site.name + '<hr/>' + site.short_description
-                    )
-                );
+            if(result.data){
+                for(site of result.data){
+                    markers.push(
+                        L.marker([site.latitude, site.longitude], {icon: heritageMarker})
+                        .bindPopup(
+                            site.name + '<hr/>' + site.short_description
+                        )
+                    );
+                }
             }
-            markersGroup = L.featureGroup(markers).addTo(mymap);
+            
+            markersGroup = L.featureGroup(markers);
+            markerCluster.addLayers(markers);
         },
         error: () => {
             console.log('Failed to retrieve heritage sites');
@@ -169,7 +174,28 @@ $('#searchbar').change(() => {
     // Weather markers
 
     // Create Webcam markers
+    
+    // Wait for ajax calls to end before displaying
+    $(document).ajaxStop(() => {
+        mymap.addLayer(markerCluster);
+    });
+});
 
+$('#wikipedia').click(() => {
+    $.ajax({
+        url: "libs/php/info/getWikiEntries.php",
+        method: 'POST',
+        data: {
+            search: store.name
+        },
+        success: (result) => {
+            let url = result.data[3];
+            window.open(url, '_blank').focus();
+        },
+        error: () => {
+            console.log('Failed to retrieve Wikipedia Entry');
+        }
+    });
 });
 
 // // Demographics details
