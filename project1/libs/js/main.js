@@ -186,11 +186,13 @@ $('#wikipedia').click(() => {
         url: "libs/php/info/getWikiEntries.php",
         method: 'POST',
         data: {
-            search: store.name
+            search: store.name.replace(' ', '+')
         },
         success: (result) => {
-            let url = result.data[3];
-            window.open(url, '_blank').focus();
+            if(result.data){
+                let url = result.data.at(-1);
+                window.open(url, '_blank').focus();
+            }
         },
         error: () => {
             console.log('Failed to retrieve Wikipedia Entry');
