@@ -4,7 +4,7 @@
 
 	$executionStartTime = microtime(true);
 
-    $url = "https://api.opencagedata.com/geocode/v1/json?key=629846e4b14b4e878bec27b4b0a99926&q=" . $_REQUEST['country'];
+    $url = "https://api.opencagedata.com/geocode/v1/json?key=629846e4b14b4e878bec27b4b0a99926&q=" . $_REQUEST['place'];
 
     $ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

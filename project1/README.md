@@ -5,7 +5,7 @@ This project collects the following data from APIs for each country and displaye
     - APIs: Rest Countries 
 - Economic: GDP, Exchange Rates, Unemployment rates, Access to Electricity
     - APIs: World Bank
-- Wikipedia Entries around clicked map location
+- Wikipedia Entries: Notable figures, heritage sites, tourist attractions
     - APIs: GeoNames
 - Environmental: Temperature (updated on clicked map location), weather forecasts, Renewable Energy Output, CO2 Emissions, Urban Population, Time
     - APIs: World Bank, WeatherAPI, RapidAPI 

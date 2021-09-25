@@ -6,7 +6,7 @@
 	$executionStartTime = microtime(true);
 
 	//$url='http://api.geonames.org/findNearbyWikipediaJSON?lat=' . $_REQUEST['lat'] . '&lng=' . $_REQUEST['lng'] . '&radius=20&username=moesamahdi';
-	$url = 'https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=' . $_REQUEST['lat'] . '%7C' . $_REQUEST['lng'] . '&gsradius=10000&gslimit=100&format=json';
+	$url = 'https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=' . $_REQUEST['lat'] . '%7C' . $_REQUEST['lng'] . '&gsradius=10000&gslimit=1000&format=json';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
